@@ -91,4 +91,4 @@ Project ini adalah alat bantu analisa (Assistant), bukan penasihat keuangan. Kep
 **Do Your Own Research (DYOR).**
 
 ---
-© 2024 Rnaufal Antigravity Engine.
+© 2025 Rnaufal Engine.
