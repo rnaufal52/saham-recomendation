@@ -3,6 +3,7 @@ import * as path from 'path';
 import { ScannerService } from './scannerService';
 import { AIService } from './aiService';
 import { AIRecommendation } from '../types';
+import * as TimeUtils from '../utils/time';
 
 export class MarketService {
   private scanner = new ScannerService();
@@ -25,24 +26,12 @@ export class MarketService {
   }
 
   async getMarketAdvice(forceScan = false) {
-    const now = new Date();
-    const hour = now.getHours();
-
-    const isProduction = process.env.NODE_ENV === 'production';
-    
-    // Golden Hours Strategy (IDX)
-    // Sesi 1: 09:00 - 10:15 (Morning Volatility)
-    // Sesi 2: 13:30 - 14:30 (Afternoon Re-open)
-    const isMorningGold = hour === 9 || (hour === 10 && now.getMinutes() <= 15);
-    const isAfternoonGold = hour === 13 && now.getMinutes() >= 30 || hour === 14 && now.getMinutes() <= 30;
-
-    const isTradingHours =
-      !isProduction || isMorningGold || isAfternoonGold || forceScan;
-
     const shouldScan =
-      isTradingHours &&
+      TimeUtils.isJakartaTradingHour(forceScan) &&
       !this.isScanning &&
-      now.getTime() - this.lastScanTime.getTime() > 60_000;
+      Date.now() - this.lastScanTime.getTime() > 60_000;
+      
+    // ... rest of method
 
     if (shouldScan) {
       this.runScan();
@@ -54,9 +43,9 @@ export class MarketService {
 
     return {
       recommendations: this.lastRecommendations,
-      history: this.history, // ✅ Return history
+      history: this.history, 
       lastUpdate: this.lastScanTime,
-      isTradingHours
+      isTradingHours: TimeUtils.isJakartaTradingHour(forceScan)
     };
   }
 
@@ -131,12 +120,15 @@ export class MarketService {
         const raw = fs.readFileSync(this.HISTORY_FILE, 'utf-8');
         const data = JSON.parse(raw);
         
-        const todayStr = new Date().toDateString();
+        // Target Date: Today in Jakarta
+        const jakartaTodayStr = TimeUtils.getJakartaDateStr();
 
-        // Re-hydrate & Filter for TODAY only
+        // Re-hydrate & Filter for TODAY only (Jakarta Date)
         this.history = data
           .map((d: any) => ({ ...d, time: new Date(d.time) }))
-          .filter((d: any) => d.time.toDateString() === todayStr);
+          .filter((d: any) => {
+             return TimeUtils.getJakartaDateStr(d.time) === jakartaTodayStr;
+          });
 
         // If data was filtered out (old days removed), save the clean file
         if (this.history.length < data.length) {

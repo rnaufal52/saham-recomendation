@@ -55,7 +55,11 @@ async function fetchSignals() {
 }
 
 function createHistoryRow(rec: Signal & { time: string }): string {
-    const time = new Date(rec.time).toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+    const time = new Date(rec.time).toLocaleTimeString('id-ID', { 
+        timeZone: 'Asia/Jakarta',
+        hour: '2-digit', 
+        minute: '2-digit' 
+    });
     const actionColor = rec.action === 'BUY' ? 'text-green-400' : 'text-gray-400';
     
     return `
@@ -84,7 +88,7 @@ function renderHeader(data: WebResponse) {
     const marketStatus = document.getElementById('market-status');
     const lastUpdate = document.getElementById('last-update');
 
-    if (lastUpdate) lastUpdate.innerText = new Date(data.lastUpdate).toLocaleTimeString('id-ID');
+    if (lastUpdate) lastUpdate.innerText = new Date(data.lastUpdate).toLocaleTimeString('id-ID', { timeZone: 'Asia/Jakarta' });
 
     if (data.isTradingHours) {
         statusDot?.classList.remove('bg-gray-500', 'bg-yellow-500');
