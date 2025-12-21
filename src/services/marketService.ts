@@ -9,7 +9,7 @@ export class MarketService {
   private scanner = new ScannerService();
   private ai = new AIService();
 
-  private lastScanTime = new Date(0);
+  private lastScanTime = new Date();
   private lastRecommendations: AIRecommendation[] = [];
   private isScanning = false;
   

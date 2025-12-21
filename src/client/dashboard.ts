@@ -88,7 +88,15 @@ function renderHeader(data: WebResponse) {
     const marketStatus = document.getElementById('market-status');
     const lastUpdate = document.getElementById('last-update');
 
-    if (lastUpdate) lastUpdate.innerText = new Date(data.lastUpdate).toLocaleTimeString('id-ID', { timeZone: 'Asia/Jakarta' });
+    if (lastUpdate) {
+        const date = new Date(data.lastUpdate);
+        // If year is 1970, show waiting
+        if (date.getFullYear() === 1970) {
+            lastUpdate.innerText = "--:--:--";
+        } else {
+            lastUpdate.innerText = date.toLocaleTimeString('id-ID', { timeZone: 'Asia/Jakarta' });
+        }
+    }
 
     if (data.isTradingHours) {
         statusDot?.classList.remove('bg-gray-500', 'bg-yellow-500');

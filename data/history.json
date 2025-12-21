@@ -1,5 +1,25 @@
 [
   {
+    "ticker": "MAHA",
+    "action": "BUY",
+    "entryPrice": 188,
+    "targetPrice": 213,
+    "stopLoss": 165,
+    "reasoning": "Momentum Continues",
+    "confidence": 78,
+    "time": "2025-12-21T17:44:00.653Z"
+  },
+  {
+    "ticker": "LEAD",
+    "action": "BUY",
+    "entryPrice": 129,
+    "targetPrice": 151,
+    "stopLoss": 115,
+    "reasoning": "Strong Momentum",
+    "confidence": 82,
+    "time": "2025-12-21T17:44:00.653Z"
+  },
+  {
     "ticker": "LABA",
     "action": "BUY",
     "entryPrice": 175,
@@ -478,25 +498,5 @@
     "reasoning": "Strong price move, high relative volume",
     "confidence": 80,
     "time": "2025-12-21T17:01:20.633Z"
-  },
-  {
-    "ticker": "GSMF",
-    "action": "BUY",
-    "entryPrice": 126,
-    "targetPrice": 140,
-    "stopLoss": 116,
-    "reasoning": "Strong price move, high relative volume",
-    "confidence": 80,
-    "time": "2025-12-21T17:00:20.069Z"
-  },
-  {
-    "ticker": "OASA",
-    "action": "BUY",
-    "entryPrice": 258,
-    "targetPrice": 270,
-    "stopLoss": 248,
-    "reasoning": "Strong price move, high relative volume",
-    "confidence": 80,
-    "time": "2025-12-21T17:00:20.069Z"
   }
 ]

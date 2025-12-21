@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import path from 'path';
 import { getDashboard } from './controllers/dashboardController';
 import { config } from './config';
+import * as TimeUtils from './utils/time';
 
 dotenv.config();
 
@@ -59,7 +60,11 @@ app.get('/', (req: Request, res: Response) => {
 app.get('/api/market-advice', getDashboard);
 
 app.get('/api/health', (req: Request, res: Response) => {
-  res.json({ status: 'ok', timestamp: new Date() });
+  res.json({ 
+    status: 'ok', 
+    timestamp: TimeUtils.getJakartaDate(),
+    timezone: 'Asia/Jakarta'
+  });
 });
 
 app.listen(config.port, () => {
