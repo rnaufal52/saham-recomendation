@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rnaufal SCALPER AI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        gray: { 850: '#1f2937', 900: '#111827', 950: '#0b0f19' }
+                    },
+                    fontFamily: {
+                        mono: ['Consolas', 'Monaco', 'Courier New', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .glass-panel {
+            background: rgba(17, 24, 39, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+    </style>
+</head>
+<body class="bg-gray-950 text-gray-200 antialiased min-h-screen font-sans selection:bg-indigo-500 selection:text-white">
+
+    <!-- Top Bar -->
+    <header class="fixed top-0 w-full z-50 glass-panel border-b-0 border-b-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="relative">
+                    <div id="status-dot" class="w-3 h-3 bg-gray-500 rounded-full"></div>
+                    <div id="status-ping" class="absolute top-0 left-0 w-3 h-3 bg-gray-500 rounded-full animate-ping opacity-75 hidden"></div>
+                </div>
+                <h1 class="text-xl font-bold tracking-tight text-white flex items-center gap-2">
+                    <span class="text-indigo-400">Rnaufal</span> SCALPER
+                </h1>
+                <button id="about-btn" class="hidden sm:flex items-center gap-2 px-3 py-1 rounded-full bg-gray-800 hover:bg-gray-700 border border-gray-700 transition-colors text-xs font-medium text-gray-300">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    Cara Kerja
+                </button>
+            </div>
+            
+            <div class="flex items-center gap-4 text-xs font-mono">
+                <div id="market-status" class="hidden sm:flex items-center gap-2 px-3 py-1 rounded-full bg-gray-900 border border-gray-800">
+                    <span class="text-gray-400">STATUS:</span>
+                    <span class="font-bold text-gray-500">LOADING...</span>
+                </div>
+                <div class="text-gray-400">
+                    UPDATED: <span id="last-update" class="text-gray-200">--:--:--</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="pt-24 pb-12 px-4 sm:px-6 max-w-7xl mx-auto">
+        <div class="mb-8 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+            <div>
+                <h2 class="text-3xl font-bold text-white mb-2">Top 5 Opportunities</h2>
+                <p class="text-gray-400 text-sm max-w-xl">
+                    Real-time AI analysis of top volume tickers on IDX. 
+                    Focus on <span class="text-indigo-400">1-15 min</span> scalping setups.
+                </p>
+            </div>
+            <div class="flex gap-2">
+                <button id="refresh-btn" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium rounded-lg transition-colors shadow-lg shadow-indigo-500/20 flex items-center gap-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+                    Refresh Scan
+                </button>
+            </div>
+        </div>
+
+        <div id="signals-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Loading State -->
+            <div class="col-span-full text-center py-20">
+                <div class="inline-block p-4 rounded-full bg-gray-900 mb-4 animate-spin">
+                    <svg class="w-8 h-8 text-gray-600" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                </div>
+                <h3 class="text-xl font-medium text-gray-300">Initializing Engine...</h3>
+            </div>
+        </div>
+
+        <div class="mt-12 border-t border-gray-800 pt-8 text-center sm:text-left text-xs text-gray-500">
+            <p>Generated by Rnaufal Scalper AI • Data delayed 1-5 mins • Not financial advice</p>
+        </div>
+      <!-- History Log -->
+    <div class="mt-12 animate-fade-in-up delay-200">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between mb-4 gap-4">
+        <h2 class="text-xl font-bold flex items-center gap-2">
+          <span class="text-indigo-400">📜</span> Riwayat Sinyal Hari Ini
+        </h2>
+        <div class="relative">
+            <input type="text" id="history-search" placeholder="Cari Ticker/Sinyal..." 
+                   class="bg-gray-900 border border-gray-700 text-gray-300 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-10 p-2.5 placeholder-gray-500">
+            <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                <svg class="w-4 h-4 text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+                </svg>
+            </div>
+        </div>
+      </div>
+      <div class="glass-card rounded-xl overflow-hidden">
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse">
+            <thead>
+              <tr class="bg-white/5 border-b border-white/10 text-sm uppercase tracking-wider text-gray-400">
+                <th class="p-4">Waktu</th>
+                <th class="p-4">Ticker</th>
+                <th class="p-4">Signal</th>
+                <th class="p-4">Entry</th>
+                <th class="p-4">Target</th>
+                <th class="p-4">Stop</th>
+                <th class="p-4">Confidence</th>
+              </tr>
+            </thead>
+            <tbody id="history-list" class="divide-y divide-white/5 text-sm">
+              <!-- History Rows Injected Here -->
+              <tr>
+                <td colspan="7" class="p-8 text-center text-gray-500 italic">Belum ada riwayat sinyal hari ini.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </main>
+
+    <!-- About Modal -->
+    <div id="about-modal" class="fixed inset-0 z-[100] hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+        <!-- Backdrop -->
+        <div class="fixed inset-0 bg-gray-950/80 backdrop-blur-sm transition-opacity"></div>
+
+        <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
+            <div class="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
+                <div class="relative transform overflow-hidden rounded-2xl glass-panel text-left shadow-2xl transition-all sm:my-8 sm:w-full sm:max-w-lg border border-gray-700">
+                    <div class="px-6 py-6 sm:p-8">
+                        <div class="sm:flex sm:items-start">
+                            <div class="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left w-full">
+                                <h3 class="text-xl font-bold leading-6 text-white mb-4 flex items-center gap-2">
+                                    <span class="text-indigo-400">🤖</span> Cara Kerja Sistem
+                                </h3>
+                                <div class="mt-4 text-sm text-gray-300 space-y-4 leading-relaxed">
+                                    <p>
+                                        Aplikasi ini bekerja layaknya <strong>Asisten Trading Pribadi</strong> Anda. Menggunakan teknologi <strong>AI Dual-Layer</strong>, sistem kami memindai ratusan saham di IDX secara real-time untuk mencari peluang <em>Scalping</em> (Cuan Cepat) terbaik.
+                                    </p>
+                                    
+                                    <div class="bg-gray-800/50 p-4 rounded-lg border border-gray-700/50">
+                                        <h4 class="font-bold text-indigo-300 mb-2 text-xs uppercase tracking-wider">Proses Dapur Pacu:</h4>
+                                        <ul class="space-y-2 text-gray-400">
+                                            <li class="flex gap-2">
+                                                <span class="text-white font-bold">1. SCANNER:</span> Menganalisa saham yang sedang ramai volumnya.
+                                            </li>
+                                            <li class="flex gap-2">
+                                                <span class="text-white font-bold">2. ANALIS:</span> AI mencari pola <em>Momentum</em> (Harga Naik) atau <em>Pantulan</em> (Harga Bawah).
+                                            </li>
+                                            <li class="flex gap-2">
+                                                <span class="text-white font-bold">3. RISK MANAGER:</span> Sinyal dicek ulang. Jika resiko tinggi, dibuang. Jika sudah pernah muncul, masuk ke <em>Riwayat</em> (Cooldown 15 Menit).
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                    <p class="text-yellow-500/90 italic text-xs border-l-2 border-yellow-500 pl-3">
+                                        <strong>Tips Pemula:</strong> Cek tabel <strong>Riwayat Sinyal</strong> di bawah untuk melihat histori trading hari ini. Disiplin pasang Target & Stoploss!
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-gray-900/50 px-6 py-4 sm:flex sm:flex-row-reverse sm:px-8 border-t border-gray-800">
+                        <button id="close-modal-btn" type="button" class="mt-3 inline-flex w-full justify-center rounded-lg bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 sm:mt-0 sm:w-auto transition-all">
+                            Paham, Tutup
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Client Script -->
+    <script src="/js/dashboard.js?v=2"></script>
+</body>
+</html>

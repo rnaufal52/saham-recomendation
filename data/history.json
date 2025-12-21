@@ -1,0 +1,502 @@
+[
+  {
+    "ticker": "LABA",
+    "action": "BUY",
+    "entryPrice": 175,
+    "targetPrice": 185,
+    "stopLoss": 165,
+    "reasoning": "Momentum up",
+    "confidence": 75,
+    "time": "2025-12-21T17:26:41.508Z"
+  },
+  {
+    "ticker": "OASA",
+    "action": "BUY",
+    "entryPrice": 258,
+    "targetPrice": 270,
+    "stopLoss": 250,
+    "reasoning": "Momentum strong",
+    "confidence": 80,
+    "time": "2025-12-21T17:26:41.508Z"
+  },
+  {
+    "ticker": "MAHA",
+    "action": "BUY",
+    "entryPrice": 188,
+    "targetPrice": 200,
+    "stopLoss": 176,
+    "reasoning": "Strong price move, high relative volume",
+    "confidence": 80,
+    "time": "2025-12-21T17:24:44.959Z"
+  },
+  {
+    "ticker": "BUMI",
+    "action": "BUY",
+    "entryPrice": 344,
+    "targetPrice": 360,
+    "stopLoss": 328,
+    "reasoning": "Strong price move, high relative volume",
+    "confidence": 80,
+    "time": "2025-12-21T17:24:44.959Z"
+  },
+  {
+    "ticker": "BULL",
+    "action": "BUY",
+    "entryPrice": 362.36,
+    "targetPrice": 380,
+    "stopLoss": 345,
+    "reasoning": "Sharp drop, RSI < 30, clear rejection",
+    "confidence": 90,
+    "time": "2025-12-21T17:21:43.746Z"
+  },
+  {
+    "ticker": "BBRM",
+    "action": "BUY",
+    "entryPrice": 184.52,
+    "targetPrice": 192.12,
+    "stopLoss": 180.92,
+    "reasoning": "Strong price move, high relative volume",
+    "confidence": 80,
+    "time": "2025-12-21T17:19:00.645Z"
+  },
+  {
+    "ticker": "LABA",
+    "action": "BUY",
+    "entryPrice": 175,
+    "targetPrice": 185,
+    "stopLoss": 165,
+    "reasoning": "Strong price move, high relative volume",
+    "confidence": 80,
+    "time": "2025-12-21T17:17:02.723Z"
+  },
+  {
+    "ticker": "GSMF",
+    "action": "BUY",
+    "entryPrice": 126,
+    "targetPrice": 138,
+    "stopLoss": 118,
+    "reasoning": "Strong price move, high relative volume",
+    "confidence": 80,
+    "time": "2025-12-21T17:17:02.723Z"
+  },
+  {
+    "ticker": "OASA",
+    "action": "BUY",
+    "entryPrice": 258,
+    "targetPrice": 270,
+    "stopLoss": 248,
+    "reasoning": "Strong price move, high relative volume",
+    "confidence": 80,
+    "time": "2025-12-21T17:17:02.723Z"
+  },
+  {
+    "ticker": "MAHA",
+    "action": "BUY",
+    "entryPrice": 188,
+    "targetPrice": 200,
+    "stopLoss": 176,
+    "reasoning": "Strong price move, high relative volume",
+    "confidence": 80,
+    "time": "2025-12-21T17:17:02.723Z"
+  },
+  {
+    "ticker": "BUMI",
+    "action": "BUY",
+    "entryPrice": 344,
+    "targetPrice": 360,
+    "stopLoss": 328,
+    "reasoning": "Strong price move, high relative volume",
+    "confidence": 80,
+    "time": "2025-12-21T17:17:02.723Z"
+  },
+  {
+    "ticker": "DEWA",
+    "action": "BUY",
+    "entryPrice": 545,
+    "targetPrice": 560,
+    "stopLoss": 530,
+    "reasoning": "Momentum strong",
+    "confidence": 80,
+    "time": "2025-12-21T17:16:01.620Z"
+  },
+  {
+    "ticker": "BBRM",
+    "action": "BUY",
+    "entryPrice": 184.52,
+    "targetPrice": 192.12,
+    "stopLoss": 180.92,
+    "reasoning": "Strong price move, high relative volume",
+    "confidence": 80,
+    "time": "2025-12-21T17:14:01.362Z"
+  },
+  {
+    "ticker": "PADI",
+    "action": "BUY",
+    "entryPrice": 127,
+    "targetPrice": 135,
+    "stopLoss": 124,
+    "reasoning": "Sharp drop, RSI < 30",
+    "confidence": 90,
+    "time": "2025-12-21T17:14:01.362Z"
+  },
+  {
+    "ticker": "GSMF",
+    "action": "BUY",
+    "entryPrice": 18.35,
+    "targetPrice": 20.79,
+    "stopLoss": 16.91,
+    "reasoning": "Strong price move, high relative volume",
+    "confidence": 80,
+    "time": "2025-12-21T17:12:47.612Z"
+  },
+  {
+    "ticker": "LABA",
+    "action": "BUY",
+    "entryPrice": 173.02,
+    "targetPrice": 183.02,
+    "stopLoss": 163.02,
+    "reasoning": "Strong price move, high relative volume, RSI > 50",
+    "confidence": 80,
+    "time": "2025-12-21T17:11:29.603Z"
+  },
+  {
+    "ticker": "OASA",
+    "action": "BUY",
+    "entryPrice": 258.26,
+    "targetPrice": 268.26,
+    "stopLoss": 248.26,
+    "reasoning": "Sharp drop, RSI < 30, clear rejection",
+    "confidence": 90,
+    "time": "2025-12-21T17:11:29.603Z"
+  },
+  {
+    "ticker": "MAHA",
+    "action": "BUY",
+    "entryPrice": 188,
+    "targetPrice": 200,
+    "stopLoss": 176,
+    "reasoning": "Strong price move, high relative volume",
+    "confidence": 80,
+    "time": "2025-12-21T17:09:29.098Z"
+  },
+  {
+    "ticker": "BUMI",
+    "action": "BUY",
+    "entryPrice": 344,
+    "targetPrice": 360,
+    "stopLoss": 328,
+    "reasoning": "Strong price move, high relative volume",
+    "confidence": 80,
+    "time": "2025-12-21T17:09:29.098Z"
+  },
+  {
+    "ticker": "LABA",
+    "action": "BUY",
+    "entryPrice": 173.02,
+    "targetPrice": 183.02,
+    "stopLoss": 163.02,
+    "reasoning": "Strong price move, high relative volume",
+    "confidence": 80,
+    "time": "2025-12-21T17:09:00.613Z"
+  },
+  {
+    "ticker": "OASA",
+    "action": "BUY",
+    "entryPrice": 258.26,
+    "targetPrice": 268.26,
+    "stopLoss": 248.26,
+    "reasoning": "Sharp price increase, RSI > 50",
+    "confidence": 90,
+    "time": "2025-12-21T17:09:00.613Z"
+  },
+  {
+    "ticker": "MAHA",
+    "action": "BUY",
+    "entryPrice": 188,
+    "targetPrice": 200,
+    "stopLoss": 176,
+    "reasoning": "Strong price move, high relative volume",
+    "confidence": 80,
+    "time": "2025-12-21T17:07:01.061Z"
+  },
+  {
+    "ticker": "BUMI",
+    "action": "BUY",
+    "entryPrice": 344,
+    "targetPrice": 360,
+    "stopLoss": 328,
+    "reasoning": "Strong price move, high relative volume",
+    "confidence": 80,
+    "time": "2025-12-21T17:07:01.061Z"
+  },
+  {
+    "ticker": "LABA",
+    "action": "BUY",
+    "entryPrice": 175,
+    "targetPrice": 190,
+    "stopLoss": 165,
+    "reasoning": "Momentum strong",
+    "confidence": 80,
+    "time": "2025-12-21T17:06:29.965Z"
+  },
+  {
+    "ticker": "LEAD",
+    "action": "BUY",
+    "entryPrice": 129,
+    "targetPrice": 140,
+    "stopLoss": 122,
+    "reasoning": "Momentum high",
+    "confidence": 85,
+    "time": "2025-12-21T17:06:29.965Z"
+  },
+  {
+    "ticker": "HUMI",
+    "action": "BUY",
+    "entryPrice": 206,
+    "targetPrice": 220,
+    "stopLoss": 196,
+    "reasoning": "Strong price move, high relative volume",
+    "confidence": 80,
+    "time": "2025-12-21T17:04:11.593Z"
+  },
+  {
+    "ticker": "GSMF",
+    "action": "BUY",
+    "entryPrice": 126,
+    "targetPrice": 140,
+    "stopLoss": 116,
+    "reasoning": "Strong price move, high relative volume",
+    "confidence": 80,
+    "time": "2025-12-21T17:04:11.593Z"
+  },
+  {
+    "ticker": "OASA",
+    "action": "BUY",
+    "entryPrice": 258,
+    "targetPrice": 270,
+    "stopLoss": 248,
+    "reasoning": "Strong price move, high relative volume",
+    "confidence": 80,
+    "time": "2025-12-21T17:04:11.593Z"
+  },
+  {
+    "ticker": "MAHA",
+    "action": "BUY",
+    "entryPrice": 188,
+    "targetPrice": 200,
+    "stopLoss": 176,
+    "reasoning": "Strong price move, high relative volume",
+    "confidence": 80,
+    "time": "2025-12-21T17:04:11.593Z"
+  },
+  {
+    "ticker": "BUMI",
+    "action": "BUY",
+    "entryPrice": 344,
+    "targetPrice": 360,
+    "stopLoss": 328,
+    "reasoning": "Strong price move, high relative volume",
+    "confidence": 80,
+    "time": "2025-12-21T17:04:11.593Z"
+  },
+  {
+    "ticker": "MAHA",
+    "action": "BUY",
+    "entryPrice": 188,
+    "targetPrice": 200,
+    "stopLoss": 176,
+    "reasoning": "Strong price move, high relative volume",
+    "confidence": 80,
+    "time": "2025-12-21T17:03:39.324Z"
+  },
+  {
+    "ticker": "BUMI",
+    "action": "BUY",
+    "entryPrice": 344,
+    "targetPrice": 360,
+    "stopLoss": 328,
+    "reasoning": "Strong price move, high relative volume",
+    "confidence": 80,
+    "time": "2025-12-21T17:03:39.324Z"
+  },
+  {
+    "ticker": "GSMF",
+    "action": "BUY",
+    "entryPrice": 126,
+    "targetPrice": 140,
+    "stopLoss": 116,
+    "reasoning": "Strong price move, high relative volume",
+    "confidence": 80,
+    "time": "2025-12-21T17:03:17.635Z"
+  },
+  {
+    "ticker": "OASA",
+    "action": "BUY",
+    "entryPrice": 258,
+    "targetPrice": 270,
+    "stopLoss": 248,
+    "reasoning": "Strong price move, high relative volume",
+    "confidence": 80,
+    "time": "2025-12-21T17:03:17.635Z"
+  },
+  {
+    "ticker": "MAHA",
+    "action": "BUY",
+    "entryPrice": 188,
+    "targetPrice": 200,
+    "stopLoss": 176,
+    "reasoning": "Strong price move, high relative volume",
+    "confidence": 80,
+    "time": "2025-12-21T17:03:17.635Z"
+  },
+  {
+    "ticker": "BUMI",
+    "action": "BUY",
+    "entryPrice": 344,
+    "targetPrice": 360,
+    "stopLoss": 328,
+    "reasoning": "Strong price move, high relative volume",
+    "confidence": 80,
+    "time": "2025-12-21T17:03:17.635Z"
+  },
+  {
+    "ticker": "HUMI",
+    "action": "BUY",
+    "entryPrice": 206,
+    "targetPrice": 220,
+    "stopLoss": 196,
+    "reasoning": "Strong price move, high relative volume",
+    "confidence": 80,
+    "time": "2025-12-21T17:02:28.625Z"
+  },
+  {
+    "ticker": "GSMF",
+    "action": "BUY",
+    "entryPrice": 126,
+    "targetPrice": 140,
+    "stopLoss": 116,
+    "reasoning": "Strong price move, high relative volume",
+    "confidence": 80,
+    "time": "2025-12-21T17:02:28.625Z"
+  },
+  {
+    "ticker": "OASA",
+    "action": "BUY",
+    "entryPrice": 258,
+    "targetPrice": 270,
+    "stopLoss": 248,
+    "reasoning": "Strong price move, high relative volume",
+    "confidence": 80,
+    "time": "2025-12-21T17:02:28.625Z"
+  },
+  {
+    "ticker": "MAHA",
+    "action": "BUY",
+    "entryPrice": 188,
+    "targetPrice": 200,
+    "stopLoss": 176,
+    "reasoning": "Strong price move, high relative volume",
+    "confidence": 80,
+    "time": "2025-12-21T17:02:28.625Z"
+  },
+  {
+    "ticker": "BUMI",
+    "action": "BUY",
+    "entryPrice": 344,
+    "targetPrice": 360,
+    "stopLoss": 328,
+    "reasoning": "Strong price move, high relative volume",
+    "confidence": 80,
+    "time": "2025-12-21T17:02:28.625Z"
+  },
+  {
+    "ticker": "MAHA",
+    "action": "BUY",
+    "entryPrice": 188,
+    "targetPrice": 200,
+    "stopLoss": 176,
+    "reasoning": "Strong price move, high relative volume",
+    "confidence": 80,
+    "time": "2025-12-21T17:01:28.253Z"
+  },
+  {
+    "ticker": "BUMI",
+    "action": "BUY",
+    "entryPrice": 344,
+    "targetPrice": 360,
+    "stopLoss": 328,
+    "reasoning": "Strong price move, high relative volume",
+    "confidence": 80,
+    "time": "2025-12-21T17:01:28.253Z"
+  },
+  {
+    "ticker": "LABA",
+    "action": "BUY",
+    "entryPrice": 175,
+    "targetPrice": 190,
+    "stopLoss": 165,
+    "reasoning": "Strong price move, high relative volume",
+    "confidence": 80,
+    "time": "2025-12-21T17:01:20.633Z"
+  },
+  {
+    "ticker": "GSMF",
+    "action": "BUY",
+    "entryPrice": 126,
+    "targetPrice": 140,
+    "stopLoss": 116,
+    "reasoning": "Strong price move, high relative volume",
+    "confidence": 80,
+    "time": "2025-12-21T17:01:20.633Z"
+  },
+  {
+    "ticker": "OASA",
+    "action": "BUY",
+    "entryPrice": 258,
+    "targetPrice": 270,
+    "stopLoss": 248,
+    "reasoning": "Strong price move, high relative volume",
+    "confidence": 80,
+    "time": "2025-12-21T17:01:20.633Z"
+  },
+  {
+    "ticker": "MAHA",
+    "action": "BUY",
+    "entryPrice": 188,
+    "targetPrice": 200,
+    "stopLoss": 176,
+    "reasoning": "Strong price move, high relative volume",
+    "confidence": 80,
+    "time": "2025-12-21T17:01:20.633Z"
+  },
+  {
+    "ticker": "BUMI",
+    "action": "BUY",
+    "entryPrice": 344,
+    "targetPrice": 360,
+    "stopLoss": 328,
+    "reasoning": "Strong price move, high relative volume",
+    "confidence": 80,
+    "time": "2025-12-21T17:01:20.633Z"
+  },
+  {
+    "ticker": "GSMF",
+    "action": "BUY",
+    "entryPrice": 126,
+    "targetPrice": 140,
+    "stopLoss": 116,
+    "reasoning": "Strong price move, high relative volume",
+    "confidence": 80,
+    "time": "2025-12-21T17:00:20.069Z"
+  },
+  {
+    "ticker": "OASA",
+    "action": "BUY",
+    "entryPrice": 258,
+    "targetPrice": 270,
+    "stopLoss": 248,
+    "reasoning": "Strong price move, high relative volume",
+    "confidence": 80,
+    "time": "2025-12-21T17:00:20.069Z"
+  }
+]
