@@ -1,5 +1,57 @@
 [
   {
+    "ticker": "NETV",
+    "action": "BUY",
+    "entryPrice": 147.5,
+    "targetPrice": 151.2,
+    "stopLoss": 144.5,
+    "reasoning": "Vol Spike",
+    "confidence": 80,
+    "transactionValue": 61606891500,
+    "riskScore": 30,
+    "accumulationStatus": "Neutral",
+    "time": "2025-12-22T14:21:21.260Z"
+  },
+  {
+    "ticker": "WIRG",
+    "action": "BUY",
+    "entryPrice": 97.5,
+    "targetPrice": 100.2,
+    "stopLoss": 95.5,
+    "reasoning": "Vol Spike",
+    "confidence": 82,
+    "transactionValue": 24386973700,
+    "riskScore": 30,
+    "accumulationStatus": "Neutral",
+    "time": "2025-12-22T14:21:21.260Z"
+  },
+  {
+    "ticker": "GOTO",
+    "action": "BUY",
+    "entryPrice": 64.5,
+    "targetPrice": 66.5,
+    "stopLoss": 62.5,
+    "reasoning": "Vol Spike",
+    "confidence": 88,
+    "transactionValue": 135252716800,
+    "riskScore": 30,
+    "accumulationStatus": "Neutral",
+    "time": "2025-12-22T14:21:21.260Z"
+  },
+  {
+    "ticker": "PAMG",
+    "action": "BUY",
+    "entryPrice": 86.5,
+    "targetPrice": 89.2,
+    "stopLoss": 84.5,
+    "reasoning": "Vol Spike",
+    "confidence": 92,
+    "transactionValue": 39486298000,
+    "riskScore": 30,
+    "accumulationStatus": "Neutral",
+    "time": "2025-12-22T14:21:21.260Z"
+  },
+  {
     "ticker": "BBRI",
     "action": "BUY",
     "entryPrice": 3760.5,

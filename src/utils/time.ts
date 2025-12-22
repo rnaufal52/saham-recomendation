@@ -11,8 +11,8 @@ export function getJakartaDate(): Date {
 
 /**
  * Checks if current Jakarta time is within Golden Hours
- * Morning: 09:00 - 10:15
- * Afternoon: 13:30 - 14:30
+ * Morning: 08:30 - 10:15
+ * Afternoon: 12:30 - 14:30
  */
 export function isJakartaTradingHour(force = false): boolean {
   if (force) return true;
@@ -29,10 +29,10 @@ export function isJakartaTradingHour(force = false): boolean {
   const time = hour * 100 + minute;
 
   // GOLDEN HOUR RULES (PRODUCTION)
-  // Sesi 1: 09:00 - 11:30 (Extended slightly to catch late breakout)
-  // Sesi 2: 13:30 - 14:50 (Pre-closing)
-  const isSesi1 = time >= 900 && time <= 1130;
-  const isSesi2 = time >= 1330 && time <= 1450;
+  // Sesi 1: 08:30 - 11:30 (Extended slightly to catch late breakout)
+  // Sesi 2: 12:30 - 14:50 (Pre-closing)
+  const isSesi1 = time >= 830 && time <= 1130;
+  const isSesi2 = time >= 1230 && time <= 1450;
 
   return isSesi1 || isSesi2;
 }
