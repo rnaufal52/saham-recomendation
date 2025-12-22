@@ -6,6 +6,9 @@ interface Signal {
     stopLoss: number;
     reasoning: string;
     confidence: number;
+    transactionValue?: number;
+    riskScore?: number;
+    accumulationStatus?: string;
 }
 
 interface WebResponse {
@@ -54,34 +57,6 @@ async function fetchSignals() {
     }
 }
 
-function createHistoryRow(rec: Signal & { time: string }): string {
-    const time = new Date(rec.time).toLocaleTimeString('id-ID', { 
-        timeZone: 'Asia/Jakarta',
-        hour: '2-digit', 
-        minute: '2-digit' 
-    });
-    const actionColor = rec.action === 'BUY' ? 'text-green-400' : 'text-gray-400';
-    
-    return `
-    <tr class="hover:bg-white/5 transition-colors border-b border-white/5 last:border-0 key-row animate-fade-in">
-        <td class="p-4 font-mono text-gray-400">${time}</td>
-        <td class="p-4 font-bold text-white">${rec.ticker}</td>
-        <td class="p-4 font-bold ${actionColor}">${rec.action}</td>
-        <td class="p-4 font-mono text-yellow-500">${rec.entryPrice}</td>
-        <td class="p-4 font-mono text-green-400">${rec.targetPrice}</td>
-        <td class="p-4 font-mono text-red-400">${rec.stopLoss}</td>
-        <td class="p-4">
-             <div class="flex items-center gap-2">
-                <div class="w-16 h-1.5 bg-gray-700 rounded-full overflow-hidden">
-                    <div class="h-full bg-blue-500" style="width: ${rec.confidence}%"></div>
-                </div>
-                <span class="text-xs text-blue-400 font-bold">${rec.confidence}%</span>
-             </div>
-        </td>
-    </tr>
-    `;
-}
-
 function renderHeader(data: WebResponse) {
     const statusDot = document.getElementById('status-dot');
     const statusPing = document.getElementById('status-ping');
@@ -111,6 +86,63 @@ function renderHeader(data: WebResponse) {
     }
 }
 
+function formatValue(val?: number): string {
+    if (!val) return '-';
+    if (val >= 1_000_000_000) return (val / 1_000_000_000).toFixed(1) + ' M'; // Milyar
+    if (val >= 1_000_000) return (val / 1_000_000).toFixed(0) + ' jt'; // Juta
+    return (val / 1_000).toFixed(0) + ' K';
+}
+
+function createHistoryRow(rec: Signal & { time: string }): string {
+    const time = new Date(rec.time).toLocaleTimeString('id-ID', { 
+        timeZone: 'Asia/Jakarta',
+        hour: '2-digit', 
+        minute: '2-digit' 
+    });
+    const actionColor = rec.action === 'BUY' ? 'text-green-400' : 'text-gray-400';
+    
+    return `
+    <tr class="hover:bg-white/5 transition-colors border-b border-white/5 last:border-0 key-row animate-fade-in">
+        <td class="p-4 font-mono text-gray-400">${time}</td>
+        <td class="p-4 font-bold text-white">${rec.ticker}</td>
+        <td class="p-4 font-bold ${actionColor}">${rec.action}</td>
+        <td class="p-4 font-mono text-indigo-300">${formatValue(rec.transactionValue)}</td>
+        <td class="p-4 font-mono text-yellow-500">${rec.entryPrice}</td>
+        <td class="p-4 font-mono text-green-400">${rec.targetPrice}</td>
+        <td class="p-4 font-mono text-red-400">${rec.stopLoss}</td>
+        <td class="p-4">${getRiskBadge(rec.riskScore)}</td>
+        <td class="p-4">
+             <div class="flex items-center gap-2">
+                <div class="w-16 h-1.5 bg-gray-700 rounded-full overflow-hidden">
+                    <div class="h-full bg-blue-500" style="width: ${rec.confidence}%"></div>
+                </div>
+                <span class="text-xs text-blue-400 font-bold">${rec.confidence}%</span>
+             </div>
+        </td>
+    </tr>
+    `;
+}
+
+// ... renderHeader ...
+
+// Helper for badges
+function getRiskBadge(score?: number): string {
+    if (score === undefined) return '';
+    let color = 'green';
+    let label = 'LOW RISK';
+    
+    if (score > 60) { color = 'red'; label = 'HIGH RISK'; }
+    else if (score > 30) { color = 'yellow'; label = 'MED RISK'; }
+
+    return `<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-${color}-500/10 text-${color}-400 border border-${color}-500/20">${label} (${score})</span>`;
+}
+
+function getAccumBadge(status?: string): string {
+    if (!status || status === 'Neutral') return '';
+    const color = status === 'Accumulation' ? 'emerald' : 'rose';
+    return `<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-${color}-500/10 text-${color}-400 border border-${color}-500/20">${status.toUpperCase()}</span>`;
+}
+
 function createCard(rec: Signal): string {
     let actionColor = 'gray';
     if (rec.action.includes('BUY')) actionColor = 'green';
@@ -126,7 +158,15 @@ function createCard(rec: Signal): string {
 
         <div class="mb-4">
             <h3 class="text-2xl font-black text-white tracking-tight">${rec.ticker}</h3>
-            <p class="text-xs text-gray-500 font-mono">IDX STOCK</p>
+            <div class="flex flex-wrap items-center gap-2 mt-2">
+                 ${getRiskBadge(rec.riskScore)}
+                 ${getAccumBadge(rec.accumulationStatus)}
+            </div>
+            <div class="flex items-center gap-2 text-xs text-gray-500 font-mono mt-2">
+                <span>IDX STOCK</span>
+                <span class="text-gray-700">•</span>
+                <span class="text-indigo-400 font-bold">Val: ${formatValue(rec.transactionValue)}</span>
+            </div>
         </div>
 
         <div class="grid grid-cols-3 gap-2 mb-4 text-center">

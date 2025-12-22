@@ -9,7 +9,9 @@ type AISignal = {
   target: number;
   stop: number;
   reason: string;
-  confidence: number; // bisa 0–1 ATAU 0–100 (dinormalisasi)
+  confidence: number;
+  risk?: number;
+  accum?: string;
 };
 
 export class AIService {
@@ -35,62 +37,79 @@ export class AIService {
         t: s.ticker,
         p: s.lastPrice,
         c: Number((s.changePercent ?? 0).toFixed(2)),
-        r: Math.round(s.rsi ?? 50),
-        v: s.volume
+        v: s.volume,
+        // 30m Snapshot Data
+        tf30: s.tf30m ? {
+          c: s.tf30m.close,
+          v: s.tf30m.volume,
+          ch: s.tf30m.change,
+          r: Math.round(s.tf30m.rsi)
+        } : null,
+        // Intraday (Last 3 x 15m Candles) form Yahoo Finance
+        candles: s.intraday ? s.intraday.slice(-3).map(c => ({
+            o: c.open,
+            c: c.close,
+            h: c.high,
+            v: c.volume
+        })) : [],
+        // Pressure
+        bid: s.bid,
+        off: s.offer,
+        // Smart Risk
+        risk: s.riskScore,
+        accum: s.accumulationStatus
       }));
 
       // =====================================
-      // 2️⃣ ANTIGRAVITY PROMPT (STRICT)
+      // 2️⃣ ANTIGRAVITY PROMPT (HYBRID)
       // =====================================
       const prompt = `
-ROLE: Antigravity Scalping Engine (IDX)
+ROLE: Antigravity Ranking Engine (IDX)
 
-PRINCIPLES:
-- Capital preservation first
-- WAIT is always acceptable
-- Do NOT force trades
+TASK:
+You are NOT an analyst. You are a RANKING ENGINE.
+Your goal is to select the TOP 5 STOCKS most likely to BREAKOUT in the next 30-60 minutes.
 
-ALLOWED SETUPS:
-1. Momentum:
-   - Strong price move
-   - High relative volume
-   - RSI > 50 (not exhausted)
-2. Reversal:
-   - Sharp drop
-   - RSI < 30
-   - Clear rejection
+DATA CONTEXT:
+- "tf30": Snapshot of the LAST 30 MINUTES (TradingView).
+- "candles": REAL Intraday 15m Candles (Yahoo Finance). [Oldest ... Newest]
 
-REJECT IF:
-- Sideways market
-- Weak volume
-- RSI 35–65 without momentum
-- Poor Risk/Reward
-- Entry not clear
+CRITERIA (MUST HAVE):
+1. VOLUME SPIKE: High volume in last 30m ("tf30.v") vs daily context.
+2. INTRADAY TIMING: Look at "candles" (Last 3):
+   - The LATEST candle (last in array) should be GREEN or strongly consolidating.
+   - REJECT if the latest candle is a massive RED dump.
+3. PRE-BREAKOUT: Price consolidating or pushing up, not yet over-extended.
+78: 4. MOMENTUM: "tf30.ch" is positive but not exhausted.
+79: 5. SMART RISK:
+80:    - Prefer "accum" == "Accumulation".
+81:    - Avoid "risk" > 80 (Gorengan/Manipulated).
 
-RULES:
-- Timeframe: 1–15 minutes
-- Max 5 signals
-- If no strong setup exists, return EMPTY ARRAY []
+STRICT RULES:
+- RANK by probability of immediate move.
+- MAX 5 RESULTS.
+- IF UNCLEAR -> RETURN EMPTY [].
+- IGNORE laggards.
 
 DATA:
 ${JSON.stringify(market)}
 
 OUTPUT:
-RAW JSON ARRAY ONLY
-NO markdown
-NO text
-NO backticks
+RAW JSON ARRAY ONLY. NO MARKDOWN.
 
 FORMAT:
 [
   {
     "ticker": "CODE",
     "action": "BUY",
-    "entry": number,
-    "target": number,
-    "stop": number,
-    "reason": "max 8 words",
-    "confidence": number (0–100)
+    "entry": number, // Current price or slightly above
+    "target": number, // Scalping target (2-4%)
+    "stop": number, // Tight stop
+    "reason": "Vol Spike + Bid Dom", // Max 5 words
+    "reason": "Vol Spike + Bid Dom", // Max 5 words
+    "confidence": number, // 80-99
+    "risk": number, // Pass through from data
+    "accum": string // Pass through from data
   }
 ]
 `;
@@ -186,6 +205,8 @@ FORMAT:
               ? Math.round(s.confidence * 100)
               : Math.round(s.confidence);
 
+          const originalStock = stocks.find(stock => stock.ticker === s.ticker);
+          
           return {
             ticker: s.ticker,
             action: 'BUY',
@@ -193,7 +214,10 @@ FORMAT:
             targetPrice: s.target,
             stopLoss: s.stop,
             reasoning: s.reason,
-            confidence: Math.min(normalizedConfidence, 95) // clamp anti-overconfidence
+            confidence: Math.min(normalizedConfidence, 95), // clamp anti-overconfidence
+            transactionValue: originalStock?.transactionValue,
+            riskScore: s.risk,
+            accumulationStatus: s.accum
           };
         })
         .sort((a, b) => b.confidence - a.confidence)

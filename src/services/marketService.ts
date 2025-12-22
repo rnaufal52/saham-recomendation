@@ -74,6 +74,7 @@ export class MarketService {
       // anti rate-limit Groq
       await new Promise(r => setTimeout(r, 800));
 
+      console.log(`[MarketService] Sending ${freshStocks.length} fresh candidates to AI...`);
       const recommendations = await this.ai.analyzeMarket(freshStocks);
 
       // 3. Update Cooldowns & History
@@ -118,6 +119,11 @@ export class MarketService {
     try {
       if (fs.existsSync(this.HISTORY_FILE)) {
         const raw = fs.readFileSync(this.HISTORY_FILE, 'utf-8');
+        if (!raw || raw.trim() === '') {
+            this.history = [];
+            return;
+        }
+
         const data = JSON.parse(raw);
         
         // Target Date: Today in Jakarta
@@ -137,8 +143,9 @@ export class MarketService {
         }
       }
     } catch (e) {
-      console.error('[MarketService] Failed to load history:', e);
+      console.warn('[MarketService] History corrupted or invalid. Starting fresh. Error:', (e as Error).message);
       this.history = [];
+      this.saveHistory(); // Auto-fix file
     }
   }
 

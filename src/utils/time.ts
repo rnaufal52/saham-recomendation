@@ -16,16 +16,25 @@ export function getJakartaDate(): Date {
  */
 export function isJakartaTradingHour(force = false): boolean {
   if (force) return true;
-  if (process.env.NODE_ENV !== 'production') return true; // Dev always active
+  
+  // DEVELOPMENT: Scan Continuously
+  // "jika tidak development dia bisa scan terus" -> interpreted as:
+  // IF DEV -> SCAN TERUS
+  // IF PROD -> FOLLOW GOLDEN HOUR
+  if (process.env.NODE_ENV === 'development') return true; 
 
   const now = getJakartaDate();
   const hour = now.getHours();
   const minute = now.getMinutes();
+  const time = hour * 100 + minute;
 
-  const isMorningGold = hour === 9 || (hour === 10 && minute <= 15);
-  const isAfternoonGold = hour === 13 && minute >= 30 || hour === 14 && minute <= 30;
+  // GOLDEN HOUR RULES (PRODUCTION)
+  // Sesi 1: 09:00 - 11:30 (Extended slightly to catch late breakout)
+  // Sesi 2: 13:30 - 14:50 (Pre-closing)
+  const isSesi1 = time >= 900 && time <= 1130;
+  const isSesi2 = time >= 1330 && time <= 1450;
 
-  return isMorningGold || isAfternoonGold;
+  return isSesi1 || isSesi2;
 }
 
 /**
