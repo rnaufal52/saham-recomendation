@@ -126,19 +126,20 @@ export class MarketService {
 
         const data = JSON.parse(raw);
         
-        // Target Date: Today in Jakarta
-        const jakartaTodayStr = TimeUtils.getJakartaDateStr();
+        // Target: Last Friday 16:00
+        const lastResetTime = TimeUtils.getLastHistoryResetTime();
 
-        // Re-hydrate & Filter for TODAY only (Jakarta Date)
+        // Re-hydrate & Filter for CURRENT WEEK (Since last reset)
         this.history = data
           .map((d: any) => ({ ...d, time: new Date(d.time) }))
           .filter((d: any) => {
-             return TimeUtils.getJakartaDateStr(d.time) === jakartaTodayStr;
+             // Keep if data time is AFTER the last reset time
+             return d.time > lastResetTime;
           });
 
         // If data was filtered out (old days removed), save the clean file
         if (this.history.length < data.length) {
-          console.log('[MarketService] Old history cleaned. Starting fresh for today.');
+          console.log('[MarketService] Weekly history cleaned (Friday 16:00 Reset). Starting fresh cycle.');
           this.saveHistory();
         }
       }
