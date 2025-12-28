@@ -226,9 +226,11 @@ export class ScannerService {
                 } else {
                     console.log(`[Scanner] ${stock.ticker} rejected. (Last: ${(lastChange*100).toFixed(2)}%, Dumps: ${dumpCount})`);
                 }
+            } else {
+                console.warn(`[Scanner] No intraday data for ${stock.ticker} (Empty/Null)`);
             }
         } catch (e) {
-            console.warn(`[Scanner] Failed to validate ${stock.ticker}`, e);
+            console.warn(`[Scanner] Failed to validate ${stock.ticker}:`, (e as Error).message);
         }
       }
 
@@ -244,7 +246,7 @@ export class ScannerService {
    */
   private async getIntradayCandles(ticker: string) {
     try {
-        const url = `https://query1.finance.yahoo.com/v8/finance/chart/${ticker}.JK?interval=15m&range=1d`;
+        const url = `https://query1.finance.yahoo.com/v8/finance/chart/${ticker}.JK?interval=15m&range=5d`;
         const { data } = await axios.get(url, {
             headers: {
                 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
@@ -266,6 +268,7 @@ export class ScannerService {
             volume: quote.volume[i]
         })).filter((c: any) => c.close !== null); // Filter nulls
     } catch (error) {
+        console.warn(`[Scanner] Yahoo API Error for ${ticker}:`, (error as Error).message);
         return null; // Silent fail
     }
   }

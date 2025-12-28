@@ -8,7 +8,7 @@ export class MarketService {
   private scanner = new ScannerService();
   private ai = new AIService();
 
-  private lastScanTime = new Date();
+  private lastScanTime = new Date(0);
   private lastRecommendations: AIRecommendation[] = [];
   private isScanning = false;
   
@@ -90,7 +90,11 @@ export class MarketService {
         this.cooldowns.set(rec.ticker, Date.now() + this.COOLDOWN_MS);
         
         // Add to history
-        this.history.unshift({ ...rec, time: new Date() });
+        this.history.unshift({ 
+            ...rec, 
+            time: new Date(),
+            date: TimeUtils.getJakartaDateStr() 
+        });
       });
 
       // Keep history size manageable (max 50)

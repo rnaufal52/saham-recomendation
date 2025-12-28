@@ -95,15 +95,22 @@
     <div class="mt-12 animate-fade-in-up delay-200">
       <div class="flex flex-col sm:flex-row sm:items-center justify-between mb-4 gap-4">
         <h2 class="text-xl font-bold flex items-center gap-2">
-          <span class="text-indigo-400">📜</span> Riwayat Sinyal Hari Ini
+          <span class="text-indigo-400">📜</span> Riwayat Sinyal
         </h2>
-        <div class="relative">
-            <input type="text" id="history-search" placeholder="Cari Ticker/Sinyal..." 
-                   class="bg-gray-900 border border-gray-700 text-gray-300 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-10 p-2.5 placeholder-gray-500">
-            <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                <svg class="w-4 h-4 text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
-                </svg>
+        <div class="flex gap-2 w-full sm:w-auto">
+            <!-- Date Filter -->
+            <input type="date" id="history-date" 
+                   class="bg-gray-900 border border-gray-700 text-gray-300 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block p-2.5 placeholder-gray-500">
+            
+            <!-- Search -->
+            <div class="relative w-full sm:w-64">
+                <input type="text" id="history-search" placeholder="Cari Ticker..." 
+                    class="bg-gray-900 border border-gray-700 text-gray-300 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-10 p-2.5 placeholder-gray-500">
+                <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                    <svg class="w-4 h-4 text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+                    </svg>
+                </div>
             </div>
         </div>
       </div>
@@ -112,7 +119,8 @@
           <table class="w-full text-left border-collapse">
             <thead>
               <tr class="bg-white/5 border-b border-white/10 text-sm uppercase tracking-wider text-gray-400">
-                <th class="p-4">Waktu</th>
+                <th class="p-4">Tanggal</th>
+                <th class="p-4">Jam</th>
                 <th class="p-4">Ticker</th>
                 <th class="p-4">Signal</th>
                 <th class="p-4">Value</th>

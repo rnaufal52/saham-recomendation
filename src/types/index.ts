@@ -48,6 +48,7 @@ export interface AIRecommendation {
   transactionValue?: number;
   riskScore?: number;
   accumulationStatus?: string;
+  date?: string; // YYYY-MM-DD
 }
 
 export interface MarketAnalysisResult {

@@ -47,7 +47,7 @@ async function fetchSignals() {
                 historyList.innerHTML = data.history.map(row => createHistoryRow(row)).join('');
                 applyFilter(); // ✅ Re-apply filter after render
             } else {
-                historyList.innerHTML = `<tr><td colspan="7" class="p-8 text-center text-gray-500 italic">Belum ada riwayat sinyal hari ini.</td></tr>`;
+                historyList.innerHTML = `<tr><td colspan="10" class="p-8 text-center text-gray-500 italic">Belum ada riwayat sinyal hari ini.</td></tr>`;
             }
         }
 
@@ -94,7 +94,17 @@ function formatValue(val?: number): string {
 }
 
 function createHistoryRow(rec: Signal & { time: string }): string {
-    const time = new Date(rec.time).toLocaleTimeString('id-ID', { 
+    const dateObj = new Date(rec.time);
+    const dateStr = dateObj.toLocaleDateString('id-ID', {
+        timeZone: 'Asia/Jakarta',
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric'
+    }); // DD/MM/YYYY
+    // Format for comparison (YYYY-MM-DD)
+    const isoDate = dateObj.toLocaleDateString('fr-CA', { timeZone: 'Asia/Jakarta' }); // YYYY-MM-DD
+
+    const timeStr = dateObj.toLocaleTimeString('id-ID', { 
         timeZone: 'Asia/Jakarta',
         hour: '2-digit', 
         minute: '2-digit' 
@@ -102,8 +112,9 @@ function createHistoryRow(rec: Signal & { time: string }): string {
     const actionColor = rec.action === 'BUY' ? 'text-green-400' : 'text-gray-400';
     
     return `
-    <tr class="hover:bg-white/5 transition-colors border-b border-white/5 last:border-0 key-row animate-fade-in">
-        <td class="p-4 font-mono text-gray-400">${time}</td>
+    <tr class="hover:bg-white/5 transition-colors border-b border-white/5 last:border-0 key-row animate-fade-in" data-date="${isoDate}">
+        <td class="p-4 font-mono text-gray-500">${dateStr}</td>
+        <td class="p-4 font-mono text-gray-400">${timeStr}</td>
         <td class="p-4 font-bold text-white">${rec.ticker}</td>
         <td class="p-4 font-bold ${actionColor}">${rec.action}</td>
         <td class="p-4 font-mono text-indigo-300">${formatValue(rec.transactionValue)}</td>
@@ -238,23 +249,40 @@ document.querySelectorAll('#about-modal .fixed.inset-0.bg-gray-950\\/80').forEac
 
 // Search Filter Logic
 const searchInput = document.getElementById('history-search') as HTMLInputElement;
+const dateInput = document.getElementById('history-date') as HTMLInputElement;
+
+// Set Default Date to Today
+if (dateInput) {
+    const today = new Date().toLocaleDateString('fr-CA', { timeZone: 'Asia/Jakarta' }); // YYYY-MM-DD
+    dateInput.value = today;
+}
 
 function applyFilter() {
-    if (!searchInput) return;
-    const term = searchInput.value.toLowerCase();
+    const term = searchInput?.value.toLowerCase() || '';
+    const dateVal = dateInput?.value || '';
+
     const rows = document.querySelectorAll('#history-list tr.key-row');
     
     rows.forEach(row => {
         const text = row.textContent?.toLowerCase() || '';
-        if (text.includes(term)) {
+        const rowDate = (row as HTMLElement).dataset.date || '';
+
+        const matchesTerm = text.includes(term);
+        const matchesDate = dateVal === '' || rowDate === dateVal;
+
+        if (matchesTerm && matchesDate) {
             (row as HTMLElement).style.display = '';
         } else {
             (row as HTMLElement).style.display = 'none';
         }
     });
+
+    // Handle "No rows found" message if all hidden? 
+    // (Optional enhancement, but for now standard filtering is fine)
 }
 
 searchInput?.addEventListener('input', applyFilter);
+dateInput?.addEventListener('change', applyFilter);
 
 // Auto Refresh
 setInterval(fetchSignals, 60000);
