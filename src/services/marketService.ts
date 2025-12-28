@@ -1,9 +1,8 @@
-import * as fs from 'fs';
-import * as path from 'path';
 import { ScannerService } from './scannerService';
 import { AIService } from './aiService';
 import { AIRecommendation } from '../types';
 import * as TimeUtils from '../utils/time';
+import { redis } from '../utils/redis';
 
 export class MarketService {
   private scanner = new ScannerService();
@@ -19,22 +18,31 @@ export class MarketService {
   
   // History
   private history: (AIRecommendation & { time: Date })[] = [];
-  private readonly HISTORY_FILE = path.join(process.cwd(), 'data', 'history.json');
+  private readonly REDIS_KEY = 'market:history';
 
   constructor() {
-    this.loadHistory();
+    // Initial load no longer synchronous
   }
 
   async getMarketAdvice(forceScan = false) {
+    // Ensure history is loaded at least once or refreshed
+    if (this.history.length === 0) {
+      await this.loadHistory();
+    }
+
     const shouldScan =
       TimeUtils.isJakartaTradingHour(forceScan) &&
       !this.isScanning &&
       Date.now() - this.lastScanTime.getTime() > 60_000;
       
-    // ... rest of method
-
     if (shouldScan) {
-      this.runScan();
+      // Don't await runScan to prevent blocking the response too long?
+      // But the user might want current results. The original code didn't await runScan in the if block?
+      // Original: 
+      // if (shouldScan) { this.runScan(); } 
+      // It was fire-and-forget (async method called without await).
+      // I'll keep it fire-and-forget but catch errors.
+      this.runScan().catch(e => console.error('[MarketService] Background scan error:', e));
     }
 
     if (this.lastRecommendations.length === 0 && this.isScanning) {
@@ -90,7 +98,7 @@ export class MarketService {
         this.history = this.history.slice(0, 50);
       }
       
-      this.saveHistory(); // ✅ Persist to disk
+      await this.saveHistory(); // ✅ Persist to Redis
 
       // 4. Update Cache
       this.lastRecommendations = recommendations;
@@ -113,52 +121,46 @@ export class MarketService {
   }
 
   // ============================
-  // 💾 PERSISTENCE HELPER
+  // 💾 PERSISTENCE HELPER (REDIS)
   // ============================
-  private loadHistory() {
+  private async loadHistory() {
     try {
-      if (fs.existsSync(this.HISTORY_FILE)) {
-        const raw = fs.readFileSync(this.HISTORY_FILE, 'utf-8');
-        if (!raw || raw.trim() === '') {
-            this.history = [];
-            return;
-        }
+      const raw = await redis.get<(AIRecommendation & { time: string })[]>(this.REDIS_KEY);
+      
+      if (!raw || !Array.isArray(raw)) {
+        this.history = [];
+        return;
+      }
 
-        const data = JSON.parse(raw);
-        
-        // Target: Last Friday 16:00
-        const lastResetTime = TimeUtils.getLastHistoryResetTime();
+      // Target: Last Friday 16:00
+      const lastResetTime = TimeUtils.getLastHistoryResetTime();
 
-        // Re-hydrate & Filter for CURRENT WEEK (Since last reset)
-        this.history = data
-          .map((d: any) => ({ ...d, time: new Date(d.time) }))
-          .filter((d: any) => {
-             // Keep if data time is AFTER the last reset time
-             return d.time > lastResetTime;
-          });
+      // Re-hydrate & Filter for CURRENT WEEK (Since last reset)
+      // Note: Redis JSON returns strings for Dates usually, need to re-parse
+      this.history = raw
+        .map(d => ({ ...d, time: new Date(d.time) }))
+        .filter(d => {
+           // Keep if data time is AFTER the last reset time
+           return d.time > lastResetTime;
+        });
 
-        // If data was filtered out (old days removed), save the clean file
-        if (this.history.length < data.length) {
-          console.log('[MarketService] Weekly history cleaned (Friday 16:00 Reset). Starting fresh cycle.');
-          this.saveHistory();
-        }
+      // If data was filtered out (old days removed), save the clean list
+      if (this.history.length < raw.length) {
+        console.log('[MarketService] Weekly history cleaned (Friday 16:00 Reset). Starting fresh cycle.');
+        await this.saveHistory();
       }
     } catch (e) {
       console.warn('[MarketService] History corrupted or invalid. Starting fresh. Error:', (e as Error).message);
       this.history = [];
-      this.saveHistory(); // Auto-fix file
+      await this.saveHistory(); 
     }
   }
 
-  private saveHistory() {
+  private async saveHistory() {
     try {
-      const dir = path.dirname(this.HISTORY_FILE);
-      if (!fs.existsSync(dir)) {
-        fs.mkdirSync(dir, { recursive: true });
-      }
-      fs.writeFileSync(this.HISTORY_FILE, JSON.stringify(this.history, null, 2));
+      await redis.set(this.REDIS_KEY, this.history);
     } catch (e) {
-      console.error('[MarketService] Failed to save history:', e);
+      console.error('[MarketService] Failed to save history to Redis:', e);
     }
   }
 }

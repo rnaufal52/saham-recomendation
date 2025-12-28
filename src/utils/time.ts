@@ -16,27 +16,37 @@ export function getJakartaDate(): Date {
  */
 export function isJakartaTradingHour(force = false): boolean {
   if (force) return true;
-  
-  // DEVELOPMENT: Scan Continuously
-  // "jika tidak development dia bisa scan terus" -> interpreted as:
-  // IF DEV -> SCAN TERUS
-  // IF PROD -> FOLLOW GOLDEN HOUR
-  if (process.env.NODE_ENV === 'development') return true; 
+
+  // DEV: scan terus
+  if (process.env.NODE_ENV === 'development') return true;
 
   const now = getJakartaDate();
+  const day = now.getDay(); 
+  // 0 = Minggu
+  // 1 = Senin
+  // ...
+  // 5 = Jumat
+  // 6 = Sabtu
+
+  // ❌ Tutup hari Sabtu
+  if (day === 6) return false;
+
   const hour = now.getHours();
   const minute = now.getMinutes();
   const time = hour * 100 + minute;
 
-  // Sesi 1: 08:30 - 11:30 (Extended slightly to catch late breakout)
-  // Sesi 2: 12:30 - 14:50 (Pre-closing)
-  // Sesi Malam: 21:00 - 22:00
+  // Sesi 1: 08:30 - 11:30
   const isSesi1 = time >= 830 && time <= 1130;
+
+  // Sesi 2: 12:30 - 14:50
   const isSesi2 = time >= 1230 && time <= 1450;
+
+  // Sesi malam (opsional)
   const isNightSession = time >= 2100 && time <= 2200;
 
   return isSesi1 || isSesi2 || isNightSession;
 }
+
 
 /**
  * Returns formatted Jakarta time string (HH:MM)
